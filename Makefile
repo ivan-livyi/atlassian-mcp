@@ -2,14 +2,14 @@
 
 CONTAINER_NAME = atlassian-mcp-server
 
-.PHONY: help start stop restart status logs build clean
+.PHONY: help run stop restart status logs build clean
 
 help: ## Show this help message
 	@echo "Available commands:"
 	@echo ""
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
 
-start: ## Start the MCP server container
+run: ## Start the MCP server container
 	@echo "Starting Atlassian MCP server..."
 	docker-compose up --build -d
 	@echo "Container started successfully!"

@@ -30,7 +30,7 @@ A Model Context Protocol (MCP) server for integrating with Atlassian Cloud servi
 ### 1. Start the Container
 
 ```bash
-make start
+make run
 ```
 
 The container will run in the background and be ready to accept MCP connections.
