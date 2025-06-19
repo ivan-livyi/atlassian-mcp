@@ -49,15 +49,7 @@ The container will run in the background and be ready to accept MCP connections.
 
 To use this MCP server with Cursor:
 
-### 1. Start the Container
-
-Make sure your Docker container is running first:
-
-```bash
-make start
-```
-
-### 2. Configure Cursor
+### Configure Cursor
 
 Add the following to your Cursor settings (Settings → Extensions → MCP), replacing the placeholder values with your actual Atlassian credentials:
 
@@ -122,93 +114,4 @@ Here are some example prompts you can use with Cursor once the MCP server is con
 - **"What spaces are available in Confluence?"** - Browse available documentation areas
 
 
-
-## Troubleshooting
-
-### Docker Issues
-
-#### Container Won't Start
-```bash
-# Check if Docker is running
-docker ps
-
-# View container logs
-docker-compose logs atlassian-mcp
-
-# Rebuild the container
-docker-compose down
-docker-compose up --build
-```
-
-#### Cursor Can't Connect to Docker Container
-```bash
-# Ensure container is running
-docker-compose ps
-
-# Container should show as "Up"
-# If not, check logs:
-docker-compose logs atlassian-mcp
-
-# Test container manually
-docker exec -it atlassian-mcp-server python atlassian_mcp.py
-```
-
-#### Environment Variables Not Working
-- Check that your Cursor MCP configuration includes the `env` section with your credentials
-- Ensure the environment variables in your Cursor config are properly formatted as JSON
-- Verify that the container is running before Cursor tries to connect
-
-### Authentication Issues
-- Verify your `ATLASSIAN_EMAIL` is correct in the Cursor MCP configuration
-- Ensure your `ATLASSIAN_TOKEN` is valid and hasn't expired
-- Check that all environment variables are properly set in the `env` section of your Cursor MCP config
-- Check that your `ATLASSIAN_DOMAIN` matches your Atlassian instance
-
-### Permission Issues
-- Make sure your Atlassian user has permission to view the projects/issues/pages you're trying to access
-- Some organizations restrict API access
-- Confluence pages may have specific space permissions
-
-### Connection Issues
-- Verify your Atlassian instance URL is accessible
-- Check if your organization uses any special authentication or VPN requirements
-- Ensure both Jira and Confluence are enabled for your instance
-
-### Page ID vs Page Title
-- Confluence pages are accessed by their numeric ID, not their title
-- You can find the page ID in the URL when viewing a page, or by searching first
-
-## Future Enhancements
-
-Planned features for future versions:
-
-### Jira
-- 📝 **Create Issues**: Add new tickets to Jira
-- ✏️ **Update Issues**: Modify existing tickets
-- 🔄 **Transition Issues**: Change issue status (e.g., mark as Done)
-- 💬 **Comments**: Add and read comments on issues
-- 📎 **Attachments**: Handle file attachments
-
-### Confluence
-- 📝 **Create Pages**: Add new pages to Confluence
-- ✏️ **Update Pages**: Modify existing page content
-- 💬 **Comments**: Add and read page comments
-- 📎 **Attachments**: Handle file attachments
-- 🔍 **Advanced Search**: More sophisticated content search
-
-### General
-- 🏷️ **Labels and Components**: Manage metadata
-- 📊 **Analytics**: Usage statistics and insights
-- 🔄 **Sync**: Cross-platform content synchronization
-
-## Security Notes
-
-- Never commit your API token to version control
-- Use environment variables or secure secret management
-- API tokens should be rotated regularly
-- Consider using application-specific tokens with minimal required permissions
-- Be aware of rate limits on Atlassian APIs
-
-## Contributing
-
-Feel free to submit issues and pull requests to improve this MCP server! 
+ 
