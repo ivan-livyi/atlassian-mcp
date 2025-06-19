@@ -47,16 +47,6 @@ pip install -r requirements.txt
 4. Give it a name (e.g., "MCP Server") and create it
 5. Copy the token (you won't be able to see it again)
 
-### 3. Test the Setup
-
-You can test that the server starts correctly:
-
-```bash
-source venv/bin/activate
-ATLASSIAN_EMAIL=test@test.com ATLASSIAN_TOKEN=test ATLASSIAN_DOMAIN=test python atlassian_mcp.py &
-# The server should start without errors. Use 'pkill -f atlassian_mcp.py' to stop it.
-```
-
 ## Usage with Cursor
 
 To use this MCP server with Cursor:
