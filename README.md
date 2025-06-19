@@ -35,17 +35,7 @@ make start
 
 The container will run in the background and be ready to accept MCP connections. Environment variables will be provided by Cursor through the MCP configuration.
 
-### 2. Managing the Container
 
-Available commands:
-
-```bash
-make start     # Start the MCP server container
-make stop      # Stop the MCP server container
-make restart   # Restart the container
-make status    # Check container status
-make logs      # View container logs
-```
 
 ### 2. Get Your Atlassian API Token
 
@@ -99,51 +89,7 @@ Add the following to your Cursor settings (Settings → Extensions → MCP), rep
 - The `ATLASSIAN_DOMAIN` should be the subdomain part of your Atlassian URL. For example, if your Atlassian is at `https://acme-corp.atlassian.net`, then `ATLASSIAN_DOMAIN` should be `acme-corp`
 - Environment variables are now configured directly in the Cursor MCP settings (not in a separate .env file)
 
-### 2. Available Tools
 
-Once configured, you'll have access to these tools in Cursor:
-
-#### Jira Tools
-
-##### `get_jira_issue`
-Get detailed information about a specific issue.
-
-**Example**: "Get details for ticket PEX-2288"
-
-##### `search_jira_issues` 
-Search for issues using JQL.
-
-**Example**: "Find all open issues assigned to me"
-- JQL: `assignee = currentUser() AND status != Done`
-
-**Example**: "Find high priority bugs in the PEX project"
-- JQL: `project = PEX AND issuetype = Bug AND priority = High`
-
-##### `get_jira_project`
-Get information about a project.
-
-**Example**: "Tell me about the PEX project"
-
-#### Confluence Tools
-
-##### `get_confluence_page`
-Get detailed information and content from a specific page.
-
-**Example**: "Get the content of page 123456789"
-
-##### `search_confluence_pages`
-Search for pages using CQL.
-
-**Example**: "Find all documentation pages in the DEV space"
-- CQL: `space = DEV AND title ~ "documentation"`
-
-**Example**: "Find pages updated recently"
-- CQL: `lastModified >= now("-7d")`
-
-##### `get_confluence_space`
-Get information about a Confluence space.
-
-**Example**: "Tell me about the DEV space"
 
 ## Example Prompts
 
@@ -175,21 +121,7 @@ Here are some example prompts you can use with Cursor once the MCP server is con
 - **"Tell me about the PEX project"** - Get project overview and details
 - **"What spaces are available in Confluence?"** - Browse available documentation areas
 
-## API Authentication
 
-The server uses HTTP Basic Authentication with your email and API token. The authentication format matches the curl examples:
-
-```bash
-# Jira API
-curl -u "your.email@company.com:YOUR_API_TOKEN" \
-  -H "Accept: application/json" \
-  "https://your-domain.atlassian.net/rest/api/3/issue/TICKET-123"
-
-# Confluence API
-curl -u "your.email@company.com:YOUR_API_TOKEN" \
-  -H "Accept: application/json" \
-  "https://your-domain.atlassian.net/wiki/rest/api/content/123456789"
-```
 
 ## Troubleshooting
 
