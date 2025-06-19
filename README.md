@@ -27,7 +27,7 @@ A Model Context Protocol (MCP) server for integrating with Atlassian Cloud servi
 
 ## Setup
 
-### 1. Start MCP Server with Docker 
+### 1. Download project and start MCP Server 
 
 ```bash
 git clone https://github.com/ivan-livyi/atlassian-mcp
