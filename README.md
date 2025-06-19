@@ -30,36 +30,21 @@ A Model Context Protocol (MCP) server for integrating with Atlassian Cloud servi
 ### 1. Start the Container
 
 ```bash
-# Start the MCP server container
 make start
-
-# OR manually with docker-compose
-docker-compose up --build -d
 ```
 
 The container will run in the background and be ready to accept MCP connections. Environment variables will be provided by Cursor through the MCP configuration.
 
 ### 2. Managing the Container
 
-Available Make commands:
+Available commands:
 
 ```bash
-make help      # Show all available commands
 make start     # Start the MCP server container
 make stop      # Stop the MCP server container
 make restart   # Restart the container
 make status    # Check container status
-make logs      # View container logs (follow mode)
-make build     # Build the Docker image
-make clean     # Remove containers and clean up
-```
-
-Or use Docker Compose directly:
-
-```bash
-docker-compose ps                    # Check status
-docker-compose logs -f atlassian-mcp # View logs
-docker-compose down                  # Stop container
+make logs      # View container logs
 ```
 
 ### 2. Get Your Atlassian API Token
@@ -80,7 +65,6 @@ Make sure your Docker container is running first:
 
 ```bash
 make start
-# OR: docker-compose up -d
 ```
 
 ### 2. Configure Cursor
@@ -161,61 +145,35 @@ Get information about a Confluence space.
 
 **Example**: "Tell me about the DEV space"
 
-## Query Examples
+## Example Prompts
 
-### JQL Query Examples
+Here are some example prompts you can use with Cursor once the MCP server is configured:
 
-Here are some useful JQL queries you can use with the Jira search tool:
+### Jira Examples
 
-```sql
--- All open issues in a project
-project = PEX AND status != Done
+- **"What is JIRA-123 about?"** - Get details about a specific ticket
+- **"Show me all issues assigned to me"** - Find your current assignments
+- **"Find all high priority bugs in the PEX project"** - Search for critical issues
+- **"What open issues are there in the ACME project?"** - See project status
+- **"Show me issues created this week"** - Track recent work
+- **"Find all unassigned tickets"** - Discover work that needs owners
+- **"What's the status of issues in Sprint 42?"** - Check sprint progress
+- **"Show me all bugs reported by john.doe"** - Track issues from specific users
 
--- Issues assigned to you
-assignee = currentUser()
+### Confluence Examples
 
--- Recently updated issues
-updated >= -7d
+- **"Find documentation about API deployment"** - Search for specific content
+- **"Show me all pages in the DEV space"** - Browse team documentation
+- **"What's on the homepage of the ENGINEERING space?"** - Get space overview  
+- **"Find pages updated in the last week"** - See recent documentation changes
+- **"Search for pages containing 'database migration'"** - Find technical docs
+- **"Show me all pages created by sarah.smith"** - Find author's contributions
+- **"What documentation exists about authentication?"** - Search by topic
 
--- High priority bugs
-issuetype = Bug AND priority = High
+### Project Information
 
--- Issues in specific sprint
-sprint = "Sprint 42"
-
--- Issues without assignee
-assignee is EMPTY
-
--- Issues created this week
-created >= startOfWeek()
-
--- Combination example
-project = PEX AND assignee = currentUser() AND status = "In Progress"
-```
-
-### CQL Query Examples
-
-Here are some useful CQL queries you can use with the Confluence search tool:
-
-```sql
--- All pages in a specific space
-space = DEV
-
--- Pages with specific title
-title ~ "documentation"
-
--- Recently updated pages
-lastModified >= now("-7d")
-
--- Pages by specific author
-creator = "john.doe"
-
--- Pages with specific content
-text ~ "deployment"
-
--- Combination example
-space = DEV AND title ~ "API" AND lastModified >= now("-30d")
-```
+- **"Tell me about the PEX project"** - Get project overview and details
+- **"What spaces are available in Confluence?"** - Browse available documentation areas
 
 ## API Authentication
 
