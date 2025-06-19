@@ -27,7 +27,16 @@ A Model Context Protocol (MCP) server for integrating with Atlassian Cloud servi
 
 ## Setup
 
-### 1. Get Your Atlassian API Token
+### 1. Start MCP Server with Docker 
+
+```bash
+make run
+```
+
+The container will run in the background and be ready to accept MCP connections.
+
+
+### 2. Get Your Atlassian API Token
 
 1. Go to your Atlassian Cloud instance
 2. Navigate to **Account Settings** → **Security** → **API tokens**
@@ -35,7 +44,7 @@ A Model Context Protocol (MCP) server for integrating with Atlassian Cloud servi
 4. Give it a name (e.g., "MCP Server") and create it
 5. Copy the token (you won't be able to see it again)
 
-### 2. Configure Cursor
+### 3. Configure Cursor
 
 Add the following to your Cursor settings (Settings → Extensions → MCP), replacing the placeholder values with your actual Atlassian credentials:
 
@@ -64,20 +73,9 @@ Add the following to your Cursor settings (Settings → Extensions → MCP), rep
 }
 ```
 
-### 3. Start the Container
-
-```bash
-make run
-```
-
-The container will run in the background and be ready to accept MCP connections.
-
-**Important**: 
-- The Docker container must be running before Cursor can connect to it
+**Important**:
 - Replace the placeholder values in the `env` section with your actual Atlassian credentials
 - The `ATLASSIAN_DOMAIN` should be the subdomain part of your Atlassian URL. For example, if your Atlassian is at `https://acme-corp.atlassian.net`, then `ATLASSIAN_DOMAIN` should be `acme-corp`
-- Environment variables are now configured directly in the Cursor MCP settings (not in a separate .env file)
-
 
 
 ## Example Prompts
