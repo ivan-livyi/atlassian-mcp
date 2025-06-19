@@ -107,5 +107,13 @@ Here are some example prompts you can use with Cursor once the MCP server is con
 - **"Tell me about the PEX project"** - Get project overview and details
 - **"What spaces are available in Confluence?"** - Browse available documentation areas
 
+## Security Notes
 
- 
+- **Never share your API token** - Keep it secure and private
+- **Rotate tokens regularly** - Create new tokens periodically and delete old ones
+- **Use minimal permissions** - Ensure your Atlassian user only has access to what's needed
+- **Monitor usage** - Check your Atlassian audit logs for any unusual API activity
+
+## Contributing
+
+Feel free to submit issues and pull requests to improve this MCP server! Contributions are welcome to add new features, fix bugs, or improve documentation.
