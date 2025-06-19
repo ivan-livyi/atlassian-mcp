@@ -54,7 +54,10 @@ Add the following to your Cursor settings (Settings → Extensions → MCP), rep
       "command": "docker",
       "args": [
         "exec", 
-        "-i", 
+        "-i",
+        "-e", "ATLASSIAN_EMAIL",
+        "-e", "ATLASSIAN_TOKEN", 
+        "-e", "ATLASSIAN_DOMAIN",
         "atlassian-mcp-server", 
         "python", 
         "atlassian_mcp.py"
