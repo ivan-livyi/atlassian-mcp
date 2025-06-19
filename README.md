@@ -47,19 +47,7 @@ pip install -r requirements.txt
 4. Give it a name (e.g., "MCP Server") and create it
 5. Copy the token (you won't be able to see it again)
 
-### 3. Set Environment Variables
-
-Create a `.env` file or set the following environment variables:
-
-```bash
-export ATLASSIAN_EMAIL="your.email@company.com"
-export ATLASSIAN_TOKEN="your_api_token_here"
-export ATLASSIAN_DOMAIN="your-company"  # e.g., "sixt-cloud" for sixt-cloud.atlassian.net
-```
-
-**Note**: The `ATLASSIAN_DOMAIN` should be the subdomain part of your Atlassian URL. For example, if your Atlassian is at `https://acme-corp.atlassian.net`, then `ATLASSIAN_DOMAIN` should be `acme-corp`.
-
-### 4. Test the Setup
+### 3. Test the Setup
 
 You can test that the server starts correctly:
 
@@ -93,7 +81,9 @@ Add the following to your Cursor settings (Settings → Extensions → MCP):
 }
 ```
 
-**Important**: Use the full path to the Python executable in your virtual environment and the full path to your atlassian_mcp.py file.
+**Important**: 
+- Use the full path to the Python executable in your virtual environment and the full path to your atlassian_mcp.py file
+- The `ATLASSIAN_DOMAIN` should be the subdomain part of your Atlassian URL. For example, if your Atlassian is at `https://acme-corp.atlassian.net`, then `ATLASSIAN_DOMAIN` should be `acme-corp`
 
 ### 2. Available Tools
 
