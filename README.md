@@ -33,9 +33,7 @@ A Model Context Protocol (MCP) server for integrating with Atlassian Cloud servi
 make start
 ```
 
-The container will run in the background and be ready to accept MCP connections. Environment variables will be provided by Cursor through the MCP configuration.
-
-
+The container will run in the background and be ready to accept MCP connections.
 
 ### 2. Get Your Atlassian API Token
 
@@ -45,11 +43,7 @@ The container will run in the background and be ready to accept MCP connections.
 4. Give it a name (e.g., "MCP Server") and create it
 5. Copy the token (you won't be able to see it again)
 
-## Usage with Cursor
-
-To use this MCP server with Cursor:
-
-### Configure Cursor
+### 3. Configure Cursor
 
 Add the following to your Cursor settings (Settings → Extensions → MCP), replacing the placeholder values with your actual Atlassian credentials:
 
