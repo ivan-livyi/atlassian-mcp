@@ -21,23 +21,65 @@ A Model Context Protocol (MCP) server for integrating with Atlassian Cloud servi
 
 ## Prerequisites
 
-- Python 3.8+
+- Docker and Docker Compose
 - Atlassian Cloud instance with both Jira and Confluence
 - Atlassian API token
 
 ## Setup
 
-### 1. Set Up Python Environment
-
-First, create and activate a Python virtual environment:
+### 1. Quick Start with Make Commands
 
 ```bash
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+# Set up environment file
+make setup
+
+# Edit .env with your Atlassian credentials
+# ATLASSIAN_EMAIL=your.email@company.com
+# ATLASSIAN_TOKEN=your_api_token_here
+# ATLASSIAN_DOMAIN=your-company
+
+# Start the MCP server
+make start
 ```
 
-**Note**: On Windows, use `venv\Scripts\activate` instead of `source venv/bin/activate`.
+### 2. Manual Docker Setup
+
+```bash
+# Copy the environment template
+cp env.example .env
+
+# Edit .env with your Atlassian credentials
+# ATLASSIAN_EMAIL=your.email@company.com
+# ATLASSIAN_TOKEN=your_api_token_here
+# ATLASSIAN_DOMAIN=your-company
+
+# Build and run the container
+docker-compose up --build -d
+```
+
+### 3. Managing the Container
+
+Available Make commands:
+
+```bash
+make help      # Show all available commands
+make setup     # Create .env file from template
+make start     # Start the MCP server container
+make stop      # Stop the MCP server container
+make restart   # Restart the container
+make status    # Check container status
+make logs      # View container logs (follow mode)
+make build     # Build the Docker image
+make clean     # Remove containers and clean up
+```
+
+Or use Docker Compose directly:
+
+```bash
+docker-compose ps                    # Check status
+docker-compose logs -f atlassian-mcp # View logs
+docker-compose down                  # Stop container
+```
 
 ### 2. Get Your Atlassian API Token
 
@@ -51,7 +93,16 @@ pip install -r requirements.txt
 
 To use this MCP server with Cursor:
 
-### 1. Configure Cursor Settings
+### 1. Start the Container
+
+Make sure your Docker container is running first:
+
+```bash
+make start
+# OR: docker-compose up -d
+```
+
+### 2. Configure Cursor
 
 Add the following to your Cursor settings (Settings → Extensions → MCP):
 
@@ -59,20 +110,23 @@ Add the following to your Cursor settings (Settings → Extensions → MCP):
 {
   "mcpServers": {
     "atlassian": {
-      "command": "/Users/ivan/work/jira-mcp/venv/bin/python",
-      "args": ["/Users/ivan/work/jira-mcp/atlassian_mcp.py"],
-      "env": {
-        "ATLASSIAN_EMAIL": "your.email@company.com",
-        "ATLASSIAN_TOKEN": "your_api_token_here",
-        "ATLASSIAN_DOMAIN": "your-company"
-      }
+      "command": "docker",
+      "args": [
+        "exec", 
+        "-i", 
+        "atlassian-mcp-server", 
+        "python", 
+        "atlassian_mcp.py"
+      ]
     }
   }
 }
 ```
 
 **Important**: 
-- Use the full path to the Python executable in your virtual environment and the full path to your atlassian_mcp.py file
+- The Docker container must be running before Cursor can connect to it
+- The container name `atlassian-mcp-server` matches what's defined in docker-compose.yml
+- Your Atlassian credentials are configured via the `.env` file
 - The `ATLASSIAN_DOMAIN` should be the subdomain part of your Atlassian URL. For example, if your Atlassian is at `https://acme-corp.atlassian.net`, then `ATLASSIAN_DOMAIN` should be `acme-corp`
 
 ### 2. Available Tools
@@ -195,9 +249,48 @@ curl -u "your.email@company.com:YOUR_API_TOKEN" \
 
 ## Troubleshooting
 
+### Docker Issues
+
+#### Container Won't Start
+```bash
+# Check if Docker is running
+docker ps
+
+# View container logs
+docker-compose logs atlassian-mcp
+
+# Rebuild the container
+docker-compose down
+docker-compose up --build
+```
+
+#### Cursor Can't Connect to Docker Container
+```bash
+# Ensure container is running
+docker-compose ps
+
+# Container should show as "Up"
+# If not, check logs:
+docker-compose logs atlassian-mcp
+
+# Test container manually
+docker exec -it atlassian-mcp-server python atlassian_mcp.py
+```
+
+#### Environment Variables Not Loading
+```bash
+# Check if .env file exists and has correct format
+cat .env
+
+# Ensure no extra spaces around = signs
+# Correct:   ATLASSIAN_EMAIL=user@company.com
+# Incorrect: ATLASSIAN_EMAIL = user@company.com
+```
+
 ### Authentication Issues
-- Verify your `ATLASSIAN_EMAIL` is correct
+- Verify your `ATLASSIAN_EMAIL` is correct in the `.env` file
 - Ensure your `ATLASSIAN_TOKEN` is valid and hasn't expired
+- Check that your `.env` file has proper format with no extra spaces around `=` signs
 - Check that your `ATLASSIAN_DOMAIN` matches your Atlassian instance
 
 ### Permission Issues

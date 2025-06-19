@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "atlassian": {
+      "command": "docker",
+      "args": [
+        "exec", 
+        "-i", 
+        "atlassian-mcp-server", 
+        "python", 
+        "atlassian_mcp.py"
+      ]
+    }
+  }
+} 

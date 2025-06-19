@@ -1,0 +1,15 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.env
+.git/
+.gitignore
+README.md
+Makefile
+cursor-config-example.json
+cursor-docker-config.json
+run-docker.sh
+env.example 

@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  atlassian-mcp:
+    build: .
+    container_name: atlassian-mcp-server
+    environment:
+      - ATLASSIAN_EMAIL=${ATLASSIAN_EMAIL}
+      - ATLASSIAN_TOKEN=${ATLASSIAN_TOKEN}
+      - ATLASSIAN_DOMAIN=${ATLASSIAN_DOMAIN}
+    stdin_open: true
+    tty: true
+    restart: unless-stopped 
