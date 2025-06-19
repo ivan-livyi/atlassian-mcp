@@ -27,11 +27,17 @@ A Model Context Protocol (MCP) server for integrating with Atlassian Cloud servi
 
 ## Setup
 
-### 1. Install Dependencies
+### 1. Set Up Python Environment
+
+First, create and activate a Python virtual environment:
 
 ```bash
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
+
+**Note**: On Windows, use `venv\Scripts\activate` instead of `source venv/bin/activate`.
 
 ### 2. Get Your Atlassian API Token
 
