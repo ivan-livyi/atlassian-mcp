@@ -8,7 +8,12 @@
         "atlassian-mcp-server", 
         "python", 
         "atlassian_mcp.py"
-      ]
+      ],
+      "env": {
+        "ATLASSIAN_EMAIL": "your.email@company.com",
+        "ATLASSIAN_TOKEN": "your_api_token_here",
+        "ATLASSIAN_DOMAIN": "your-company"
+      }
     }
   }
 } 

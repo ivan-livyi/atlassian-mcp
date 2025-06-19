@@ -27,43 +27,24 @@ A Model Context Protocol (MCP) server for integrating with Atlassian Cloud servi
 
 ## Setup
 
-### 1. Quick Start with Make Commands
+### 1. Start the Container
 
 ```bash
-# Set up environment file
-make setup
-
-# Edit .env with your Atlassian credentials
-# ATLASSIAN_EMAIL=your.email@company.com
-# ATLASSIAN_TOKEN=your_api_token_here
-# ATLASSIAN_DOMAIN=your-company
-
-# Start the MCP server
+# Start the MCP server container
 make start
-```
 
-### 2. Manual Docker Setup
-
-```bash
-# Copy the environment template
-cp env.example .env
-
-# Edit .env with your Atlassian credentials
-# ATLASSIAN_EMAIL=your.email@company.com
-# ATLASSIAN_TOKEN=your_api_token_here
-# ATLASSIAN_DOMAIN=your-company
-
-# Build and run the container
+# OR manually with docker-compose
 docker-compose up --build -d
 ```
 
-### 3. Managing the Container
+The container will run in the background and be ready to accept MCP connections. Environment variables will be provided by Cursor through the MCP configuration.
+
+### 2. Managing the Container
 
 Available Make commands:
 
 ```bash
 make help      # Show all available commands
-make setup     # Create .env file from template
 make start     # Start the MCP server container
 make stop      # Stop the MCP server container
 make restart   # Restart the container
@@ -104,7 +85,7 @@ make start
 
 ### 2. Configure Cursor
 
-Add the following to your Cursor settings (Settings → Extensions → MCP):
+Add the following to your Cursor settings (Settings → Extensions → MCP), replacing the placeholder values with your actual Atlassian credentials:
 
 ```json
 {
@@ -117,7 +98,12 @@ Add the following to your Cursor settings (Settings → Extensions → MCP):
         "atlassian-mcp-server", 
         "python", 
         "atlassian_mcp.py"
-      ]
+      ],
+      "env": {
+        "ATLASSIAN_EMAIL": "your.email@company.com",
+        "ATLASSIAN_TOKEN": "your_api_token_here",
+        "ATLASSIAN_DOMAIN": "your-company"
+      }
     }
   }
 }
@@ -125,9 +111,9 @@ Add the following to your Cursor settings (Settings → Extensions → MCP):
 
 **Important**: 
 - The Docker container must be running before Cursor can connect to it
-- The container name `atlassian-mcp-server` matches what's defined in docker-compose.yml
-- Your Atlassian credentials are configured via the `.env` file
+- Replace the placeholder values in the `env` section with your actual Atlassian credentials
 - The `ATLASSIAN_DOMAIN` should be the subdomain part of your Atlassian URL. For example, if your Atlassian is at `https://acme-corp.atlassian.net`, then `ATLASSIAN_DOMAIN` should be `acme-corp`
+- Environment variables are now configured directly in the Cursor MCP settings (not in a separate .env file)
 
 ### 2. Available Tools
 
@@ -277,20 +263,15 @@ docker-compose logs atlassian-mcp
 docker exec -it atlassian-mcp-server python atlassian_mcp.py
 ```
 
-#### Environment Variables Not Loading
-```bash
-# Check if .env file exists and has correct format
-cat .env
-
-# Ensure no extra spaces around = signs
-# Correct:   ATLASSIAN_EMAIL=user@company.com
-# Incorrect: ATLASSIAN_EMAIL = user@company.com
-```
+#### Environment Variables Not Working
+- Check that your Cursor MCP configuration includes the `env` section with your credentials
+- Ensure the environment variables in your Cursor config are properly formatted as JSON
+- Verify that the container is running before Cursor tries to connect
 
 ### Authentication Issues
-- Verify your `ATLASSIAN_EMAIL` is correct in the `.env` file
+- Verify your `ATLASSIAN_EMAIL` is correct in the Cursor MCP configuration
 - Ensure your `ATLASSIAN_TOKEN` is valid and hasn't expired
-- Check that your `.env` file has proper format with no extra spaces around `=` signs
+- Check that all environment variables are properly set in the `env` section of your Cursor MCP config
 - Check that your `ATLASSIAN_DOMAIN` matches your Atlassian instance
 
 ### Permission Issues
