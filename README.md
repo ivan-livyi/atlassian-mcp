@@ -86,8 +86,8 @@ Here are some example prompts you can use with Cursor once the MCP server is con
 
 - **"What is JIRA-123 about?"** - Get details about a specific ticket
 - **"Show me all issues assigned to me"** - Find your current assignments
-- **"Find all high priority bugs in the PEX project"** - Search for critical issues
-- **"What open issues are there in the ACME project?"** - See project status
+- **"Find all high priority bugs in XXX project"** - Search for critical issues
+- **"What open issues are there in XXX project?"** - See project status
 - **"Show me issues created this week"** - Track recent work
 - **"Find all unassigned tickets"** - Discover work that needs owners
 - **"What's the status of issues in Sprint 42?"** - Check sprint progress
@@ -105,7 +105,7 @@ Here are some example prompts you can use with Cursor once the MCP server is con
 
 ### Project Information
 
-- **"Tell me about the PEX project"** - Get project overview and details
+- **"Tell me about the XXX project"** - Get project overview and details
 - **"What spaces are available in Confluence?"** - Browse available documentation areas
 
 ## Security Notes
