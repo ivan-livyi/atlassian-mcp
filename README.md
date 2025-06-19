@@ -27,21 +27,21 @@ A Model Context Protocol (MCP) server for integrating with Atlassian Cloud servi
 
 ## Setup
 
-### 1. Start the Container
-
-```bash
-make run
-```
-
-The container will run in the background and be ready to accept MCP connections.
-
-### 2. Get Your Atlassian API Token
+### 1. Get Your Atlassian API Token
 
 1. Go to your Atlassian Cloud instance
 2. Navigate to **Account Settings** → **Security** → **API tokens**
 3. Click **Create API token**
 4. Give it a name (e.g., "MCP Server") and create it
 5. Copy the token (you won't be able to see it again)
+
+### 2. Start the Container
+
+```bash
+make run
+```
+
+The container will run in the background and be ready to accept MCP connections.
 
 ### 3. Configure Cursor
 
