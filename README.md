@@ -48,20 +48,16 @@ This will create a Python virtual environment and install all required dependenc
 
 ### 3. Configure Cursor
 
-#### Option 1: Using Cursor Settings UI
 1. Open Cursor
-2. Go to **Settings** → **Extensions** → **MCP**
-3. Add a new MCP server with the following configuration
-
-#### Option 2: Manual Configuration
-Add the following to your `~/.cursor/mcp.json` file, replacing the placeholder values with your actual paths and Atlassian credentials:
+2. Go to **Settings** → **Cursor Settings** → **Tools & Integrations**
+3. Add a new MCP server with the following configuration, replacing the placeholder values with your actual paths and Atlassian credentials:
 
 ```json
 {
   "mcpServers": {
     "atlassian": {
-      "command": "/absolute/path/to/your/atlassian-mcp/.venv/bin/python",
-      "args": ["/absolute/path/to/your/atlassian-mcp/atlassian_mcp.py"],
+      "command": "/path/to/atlassian-mcp/.venv/bin/python",
+      "args": ["/path/to/atlassian-mcp/atlassian_mcp.py"],
       "env": {
         "ATLASSIAN_EMAIL": "your.email@company.com",
         "ATLASSIAN_TOKEN": "your_api_token_here",
@@ -73,7 +69,7 @@ Add the following to your `~/.cursor/mcp.json` file, replacing the placeholder v
 ```
 
 **Important Configuration Notes**:
-- Replace `/absolute/path/to/your/atlassian-mcp/` with the full path to where you cloned this repository
+- Replace `/path/to/atlassian-mcp/` with the full path to where you cloned this repository
 - Replace the placeholder values in the `env` section with your actual Atlassian credentials
 - The `ATLASSIAN_DOMAIN` should be the subdomain part of your Atlassian URL. For example, if your Atlassian is at `https://acme-corp.atlassian.net`, then `ATLASSIAN_DOMAIN` should be `acme-corp`
 
