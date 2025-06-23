@@ -21,22 +21,22 @@ A Model Context Protocol (MCP) server for integrating with Atlassian Cloud servi
 
 ## Prerequisites
 
-- Docker and Docker Compose
+- Python 3.8 or higher
 - Atlassian Cloud instance with both Jira and Confluence
 - Atlassian API token
 
-## Setup
+## Installation
 
-### 1. Download project and start MCP Server 
+### 1. Clone and Set Up the Project
 
 ```bash
 git clone https://github.com/ivan-livyi/atlassian-mcp
 cd atlassian-mcp
-make run
+make setup
+make install
 ```
 
-The container will run in the background and be ready to accept MCP connections.
-
+This will create a Python virtual environment and install all required dependencies.
 
 ### 2. Get Your Atlassian API Token
 
@@ -48,23 +48,20 @@ The container will run in the background and be ready to accept MCP connections.
 
 ### 3. Configure Cursor
 
-Add the following to your Cursor settings (Settings → Extensions → MCP), replacing the placeholder values with your actual Atlassian credentials:
+#### Option 1: Using Cursor Settings UI
+1. Open Cursor
+2. Go to **Settings** → **Extensions** → **MCP**
+3. Add a new MCP server with the following configuration
+
+#### Option 2: Manual Configuration
+Add the following to your `~/.cursor/mcp_settings.json` file, replacing the placeholder values with your actual paths and Atlassian credentials:
 
 ```json
 {
   "mcpServers": {
     "atlassian": {
-      "command": "docker",
-      "args": [
-        "exec", 
-        "-i",
-        "-e", "ATLASSIAN_EMAIL",
-        "-e", "ATLASSIAN_TOKEN", 
-        "-e", "ATLASSIAN_DOMAIN",
-        "atlassian-mcp-server", 
-        "python", 
-        "atlassian_mcp.py"
-      ],
+      "command": "/absolute/path/to/your/atlassian-mcp/venv/bin/python",
+      "args": ["/absolute/path/to/your/atlassian-mcp/atlassian_mcp.py"],
       "env": {
         "ATLASSIAN_EMAIL": "your.email@company.com",
         "ATLASSIAN_TOKEN": "your_api_token_here",
@@ -75,10 +72,49 @@ Add the following to your Cursor settings (Settings → Extensions → MCP), rep
 }
 ```
 
-**Important**:
+**Important Configuration Notes**:
+- Replace `/absolute/path/to/your/atlassian-mcp/` with the full path to where you cloned this repository
 - Replace the placeholder values in the `env` section with your actual Atlassian credentials
 - The `ATLASSIAN_DOMAIN` should be the subdomain part of your Atlassian URL. For example, if your Atlassian is at `https://acme-corp.atlassian.net`, then `ATLASSIAN_DOMAIN` should be `acme-corp`
 
+### 4. Test Your Setup (Optional)
+
+You can test that everything is working by running:
+
+```bash
+make test
+```
+
+Or manually test with your credentials:
+
+```bash
+ATLASSIAN_EMAIL="your.email@company.com" \
+ATLASSIAN_TOKEN="your_api_token_here" \
+ATLASSIAN_DOMAIN="your-company" \
+./venv/bin/python atlassian_mcp.py
+```
+
+The server should start and display MCP protocol messages. Press `Ctrl+C` to stop.
+
+## Example Configuration
+
+Here's a complete example of what your Cursor MCP configuration might look like:
+
+```json
+{
+  "mcpServers": {
+    "atlassian": {
+      "command": "/Users/yourname/work/atlassian-mcp/venv/bin/python",
+      "args": ["/Users/yourname/work/atlassian-mcp/atlassian_mcp.py"],
+      "env": {
+        "ATLASSIAN_EMAIL": "john.doe@company.com",
+        "ATLASSIAN_TOKEN": "ATATT3xFfGF0T4JxqT-9ir05z8uJjFnT7bJjT5sJxE3oMvRy...",
+        "ATLASSIAN_DOMAIN": "acme-corp"
+      }
+    }
+  }
+}
+```
 
 ## Example Prompts
 
@@ -87,9 +123,9 @@ Here are some example prompts you can use with Cursor once the MCP server is con
 ### Jira Examples
 
 - **"What is JIRA-123 about?"** - Get details about a specific ticket
-- **"Show me all issues assigned to me"** - Find your current assignments
-- **"Find all high priority bugs in XXX project"** - Search for critical issues
-- **"What open issues are there in XXX project?"** - See project status
+- **"Show me all issues assigned to me"** - Find your current assignments  
+- **"Find all high priority bugs in PROJECT project"** - Search for critical issues
+- **"What open issues are there in PROJECT project?"** - See project status
 - **"Show me issues created this week"** - Track recent work
 - **"Find all unassigned tickets"** - Discover work that needs owners
 - **"What's the status of issues in Sprint 42?"** - Check sprint progress
@@ -107,8 +143,46 @@ Here are some example prompts you can use with Cursor once the MCP server is con
 
 ### Project Information
 
-- **"Tell me about the XXX project"** - Get project overview and details
+- **"Tell me about the PROJECT project"** - Get project overview and details
 - **"What spaces are available in Confluence?"** - Browse available documentation areas
+
+## Troubleshooting
+
+### Common Issues
+
+1. **"Authentication failed"** - Check that your `ATLASSIAN_EMAIL`, `ATLASSIAN_TOKEN`, and `ATLASSIAN_DOMAIN` are correct
+2. **"Command not found"** - Make sure you're using the absolute path to the Python executable in your virtual environment
+3. **"Module not found"** - Run `make install` to ensure all dependencies are installed
+4. **"Permission denied"** - Ensure the Python script has execute permissions: `chmod +x atlassian_mcp.py`
+
+### Getting Help
+
+If you encounter issues:
+1. Check that your API token is valid and has the necessary permissions
+2. Verify your Atlassian domain is correct (without `.atlassian.net`)
+3. Test the connection using the `make test` command
+4. Check Cursor's MCP logs for detailed error messages
+
+## Development
+
+### Project Structure
+
+```
+atlassian-mcp/
+├── atlassian_mcp.py          # Main MCP server implementation
+├── cursor-config-example.json # Example Cursor configuration
+├── requirements.txt          # Python dependencies
+├── Makefile                 # Development commands
+└── README.md               # This file
+```
+
+### Available Make Commands
+
+- `make setup` - Create Python virtual environment
+- `make install` - Install dependencies
+- `make run` - Run the server (for testing)
+- `make test` - Test server connection
+- `make clean` - Remove virtual environment and clean up
 
 ## Security Notes
 

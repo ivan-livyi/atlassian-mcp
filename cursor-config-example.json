@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "atlassian": {
-      "command": "/Users/ivan/work/jira-mcp/venv/bin/python",
-      "args": ["/Users/ivan/work/jira-mcp/atlassian_mcp.py"],
+      "command": "/absolute/path/to/your/atlassian-mcp/venv/bin/python",
+      "args": ["/absolute/path/to/your/atlassian-mcp/atlassian_mcp.py"],
       "env": {
         "ATLASSIAN_EMAIL": "your.email@company.com",
         "ATLASSIAN_TOKEN": "your_api_token_here",
