@@ -11,7 +11,7 @@ async def test_cursor_simulation():
     print("=" * 45)
     
     # Use exact same command as in mcp.json
-    command = ["/Users/ivan/work/jira-mcp/venv/bin/python", "/Users/ivan/work/jira-mcp/atlassian_mcp.py"]
+    command = ["/Users/ivan/work/atlassian-mcp/.venv/bin/python", "/Users/ivan/work/atlassian-mcp/atlassian_mcp.py"]
     
     try:
         print(f"Starting server with exact Cursor command...")
@@ -44,7 +44,16 @@ async def test_cursor_simulation():
         init_response = await read_message(process)
         print(f"✅ Initialize response: {init_response.get('result', {}).get('capabilities', {})}")
         
-        # Step 2: Get tools immediately (like Cursor does, without notifications/initialized)
+        # Step 2: Send initialized notification (required by MCP protocol)
+        initialized_msg = {
+            "jsonrpc": "2.0",
+            "method": "notifications/initialized",
+            "params": {}
+        }
+        
+        await send_message_notification(process, initialized_msg)
+        
+        # Step 3: Get tools
         tools_msg = {
             "jsonrpc": "2.0", 
             "id": 2,
@@ -76,11 +85,11 @@ async def test_cursor_simulation():
             
             stderr_task.cancel()
             
-            if len(tools) >= 5:
+            if len(tools) >= 6:
                 print("🎉 SUCCESS! Server works exactly like Cursor expects!")
                 return True
             else:
-                print(f"❌ Server returned {len(tools)} tools, expected 5")
+                print(f"❌ Server returned {len(tools)} tools, expected 6")
                 return False
                 
         except asyncio.TimeoutError:
@@ -107,6 +116,12 @@ async def send_message(process, message):
     await process.stdin.drain()
     print(f"📤 Sent: {message['method']}")
 
+async def send_message_notification(process, message):
+    msg_json = json.dumps(message) + "\n"
+    process.stdin.write(msg_json.encode())
+    await process.stdin.drain()
+    print(f"📤 Sent notification: {message['method']}")
+
 async def read_message(process):
     line = await process.stdout.readline()
     if not line:
@@ -124,7 +139,7 @@ if __name__ == "__main__":
     success = asyncio.run(test_cursor_simulation())
     if success:
         print("\n✅ Server works exactly like Cursor expects!")
-        print("🔧 Try restarting Cursor now - it should detect 5 tools.")
+        print("🔧 Try restarting Cursor now - it should detect 6 tools.")
     else:
         print("\n❌ Server doesn't work like Cursor expects.")
     sys.exit(0 if success else 1) 
