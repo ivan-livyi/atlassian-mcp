@@ -1,6 +1,7 @@
 # Atlassian Cloud MCP Server
 
-A Model Context Protocol (MCP) server for integrating with Atlassian Cloud services. This server allows Cursor and other MCP-compatible AI assistants to read Jira tickets, search issues, get project information, and read Confluence pages.
+A Model Context Protocol (MCP) server for integrating with Atlassian Cloud services. 
+This server allows Cursor and other MCP-compatible AI assistants to read Jira tickets, search issues, get project information, and read Confluence pages.
 
 ## Features
 
@@ -32,7 +33,6 @@ A Model Context Protocol (MCP) server for integrating with Atlassian Cloud servi
 ```bash
 git clone https://github.com/ivan-livyi/atlassian-mcp
 cd atlassian-mcp
-make setup
 make install
 ```
 
@@ -54,13 +54,13 @@ This will create a Python virtual environment and install all required dependenc
 3. Add a new MCP server with the following configuration
 
 #### Option 2: Manual Configuration
-Add the following to your `~/.cursor/mcp_settings.json` file, replacing the placeholder values with your actual paths and Atlassian credentials:
+Add the following to your `~/.cursor/mcp.json` file, replacing the placeholder values with your actual paths and Atlassian credentials:
 
 ```json
 {
   "mcpServers": {
     "atlassian": {
-      "command": "/absolute/path/to/your/atlassian-mcp/venv/bin/python",
+      "command": "/absolute/path/to/your/atlassian-mcp/.venv/bin/python",
       "args": ["/absolute/path/to/your/atlassian-mcp/atlassian_mcp.py"],
       "env": {
         "ATLASSIAN_EMAIL": "your.email@company.com",
@@ -76,45 +76,6 @@ Add the following to your `~/.cursor/mcp_settings.json` file, replacing the plac
 - Replace `/absolute/path/to/your/atlassian-mcp/` with the full path to where you cloned this repository
 - Replace the placeholder values in the `env` section with your actual Atlassian credentials
 - The `ATLASSIAN_DOMAIN` should be the subdomain part of your Atlassian URL. For example, if your Atlassian is at `https://acme-corp.atlassian.net`, then `ATLASSIAN_DOMAIN` should be `acme-corp`
-
-### 4. Test Your Setup (Optional)
-
-You can test that everything is working by running:
-
-```bash
-make test
-```
-
-Or manually test with your credentials:
-
-```bash
-ATLASSIAN_EMAIL="your.email@company.com" \
-ATLASSIAN_TOKEN="your_api_token_here" \
-ATLASSIAN_DOMAIN="your-company" \
-./venv/bin/python atlassian_mcp.py
-```
-
-The server should start and display MCP protocol messages. Press `Ctrl+C` to stop.
-
-## Example Configuration
-
-Here's a complete example of what your Cursor MCP configuration might look like:
-
-```json
-{
-  "mcpServers": {
-    "atlassian": {
-      "command": "/Users/yourname/work/atlassian-mcp/venv/bin/python",
-      "args": ["/Users/yourname/work/atlassian-mcp/atlassian_mcp.py"],
-      "env": {
-        "ATLASSIAN_EMAIL": "john.doe@company.com",
-        "ATLASSIAN_TOKEN": "ATATT3xFfGF0T4JxqT-9ir05z8uJjFnT7bJjT5sJxE3oMvRy...",
-        "ATLASSIAN_DOMAIN": "acme-corp"
-      }
-    }
-  }
-}
-```
 
 ## Example Prompts
 
@@ -178,9 +139,7 @@ atlassian-mcp/
 
 ### Available Make Commands
 
-- `make setup` - Create Python virtual environment
-- `make install` - Install dependencies
-- `make run` - Run the server (for testing)
+- `make setup` - Create Python virtual environment and install dependencies~~~~
 - `make test` - Test server connection
 - `make clean` - Remove virtual environment and clean up
 
